@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Create Expense{% endblock %}
+{% block content %}
+    <h1>Create a New Expense</h1>
+    <form method="POST" action="{{ url_for('new_expense', group_id=group.id) }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.description.label }} {{ form.description }}
+        </div>
+        <div>
+            {{ form.amount.label }} {{ form.amount }}
+        </div>
+        <div>
+            {{ form.split_method.label }} {{ form.split_method }}
+        </div>
+        <div id="split-details">
+            {{ form.exact_splits }}
+            {{ form.percentage_splits }}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const splitMethodField = document.getElementById('split_method');
+            const splitDetails = document.getElementById('split-details');
+
+            function updateSplitDetails() {
+                if (splitMethodField.value === 'equal') {
+                    splitDetails.style.display = 'none';
+                } else {
+                    splitDetails.style.display = 'block';
+                }
+            }
+
+            splitMethodField.addEventListener('change', updateSplitDetails);
+            updateSplitDetails();
+        });
+    </script>
+{% endblock %}
